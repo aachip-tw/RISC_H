@@ -1,0 +1,1137 @@
+
+
+   1              	!´ú¸Õ ¦h¬Û¯ß½Ä±±¨î (Multi-phase Pulse Control) Five-Phase Pulse Output
+   2              	!¥ý³]©wGRA0¬°¤ñ¸û­È,TCNT0¤ñ¸û¨ì«á²MTCNT0=0000
+   3              	.ORG 0X00000000
+   4              	
+   5              	
+   6 0000 00000600 	   .long start     !0X00000000	Power-on reset PC
+   7              	
+   8 0004 0F000400 	   .long 0x0f000400     !0X00000004 Power-on reset sp
+   9              	
+  10 0008 00000600 	   .long start     !0X00000008 Manual reset pc
+  11              	
+  12 000c 0F000400 	   .long 0x0f000400     !0X0000000c Manual reset sp
+  13              	
+  14 0010 00000400 	   .long noused_interrupt     !0X00000010 General illegal instruction
+  15              	
+  16 0014 00000420 	   .long noused_interrupt2     !0X00000014 (Reserved for system use)
+  17              	
+  18 0018 00000400 	   .long noused_interrupt     !0X00000018 Illegal slot instruction
+  19              	
+  20 001c 00000420 	   .long noused_interrupt2     !0X0000001c (Reserved for system use)
+  21              	
+  22 0020 00000420 	   .long noused_interrupt2     !0X00000020 (Reserved for system use)
+  23              	
+  24 0024 00000400 	   .long noused_interrupt     !0X00000024 CPU address error
+  25              	
+  26 0028 00000400 	   .long noused_interrupt     !0X00000028 DMA address error
+  27              	
+  28 002c 00000440 	   .long nmi			      !0X0000002c NMI
+  29              	
+  30 0030 00000420 	   .long noused_interrupt2     !0X00000030 User break
+  31              	
+  32 0034 00000420 	   .long noused_interrupt2     !0X00000034 (Reserved for system use)
+  33              	
+  34 0038 00000420 	   .long noused_interrupt2     !0X00000038 (Reserved for system use)
+  35              	
+  36 003c 00000420 	   .long noused_interrupt2     !0X0000003c (Reserved for system use)
+  37              	
+  38 0040 00000420 	   .long noused_interrupt2     !0X00000040 (Reserved for system use)
+  39              	
+  40 0044 00000420 	   .long noused_interrupt2     !0X00000044 (Reserved for system use)
+  41              	
+  42 0048 00000420 	   .long noused_interrupt2     !0X00000048 (Reserved for system use)
+  43              	
+  44 004c 00000420 	   .long noused_interrupt2     !0X0000004c (Reserved for system use)
+  45              	
+  46 0050 00000420 	   .long noused_interrupt2     !0X00000050 (Reserved for system use)
+  47              	
+  48 0054 00000420 	   .long noused_interrupt2     !0X00000054 (Reserved for system use)
+  49              	
+  50 0058 00000420 	   .long noused_interrupt2     !0X00000058 (Reserved for system use)
+  51              	
+  52 005c 00000420 	   .long noused_interrupt2     !0X0000005c (Reserved for system use)
+  53              	
+  54 0060 00000420 	   .long noused_interrupt2     !0X00000060 (Reserved for system use)
+  55              	
+  56 0064 00000420 	   .long noused_interrupt2     !0X00000064 (Reserved for system use)
+  57              	
+			page 2
+
+
+  58 0068 00000420 	   .long noused_interrupt2     !0X00000068 (Reserved for system use)
+  59              	
+  60 006c 00000420 	   .long noused_interrupt2     !0X0000006c (Reserved for system use)
+  61              	
+  62 0070 00000420 	   .long noused_interrupt2     !0X00000070 (Reserved for system use)
+  63              	
+  64 0074 00000420 	   .long noused_interrupt2     !0X00000074 (Reserved for system use)
+  65              	
+  66 0078 00000420 	   .long noused_interrupt2     !0X00000078 (Reserved for system use)
+  67              	
+  68 007c 00000420 	   .long noused_interrupt2     !0X0000007c (Reserved for system use)
+  69              	
+  70 0080 00000480 	   .long noused_interrupt3     !0X00000080 Trap instruction (user vectors)
+  71              	
+  72 0084 000004A0 	   .long noused_interrupt4     !0X00000084 Trap instruction (user vectors)
+  73              	
+  74 0088 00000420 	   .long noused_interrupt2     !0X00000088 Trap instruction (user vectors)
+  75              	
+  76 008c 00000420 	   .long noused_interrupt2     !0X0000008c Trap instruction (user vectors)
+  77              	
+  78 0090 00000420 	   .long noused_interrupt2     !0X00000090 Trap instruction (user vectors)
+  79              	
+  80 0094 00000420 	   .long noused_interrupt2     !0X00000094 Trap instruction (user vectors)
+  81              	
+  82 0098 00000420 	   .long noused_interrupt2     !0X00000098 Trap instruction (user vectors)
+  83              	
+  84 009c 00000420 	   .long noused_interrupt2     !0X0000009c Trap instruction (user vectors)
+  85              	
+  86 00a0 00000420 	   .long noused_interrupt2     !0X000000a0 Trap instruction (user vectors)
+  87              	
+  88 00a4 00000420 	   .long noused_interrupt2     !0X000000a4 Trap instruction (user vectors)
+  89              	
+  90 00a8 00000420 	   .long noused_interrupt2     !0X000000a8 Trap instruction (user vectors)
+  91              	
+  92 00ac 00000420 	   .long noused_interrupt2     !0X000000ac Trap instruction (user vectors)
+  93              	
+  94 00b0 00000420 	   .long noused_interrupt2     !0X000000b0 Trap instruction (user vectors)
+  95              	
+  96 00b4 00000420 	   .long noused_interrupt2     !0X000000b4 Trap instruction (user vectors)
+  97              	
+  98 00b8 00000420 	   .long noused_interrupt2     !0X000000b8 Trap instruction (user vectors)
+  99              	
+ 100 00bc 00000420 	   .long noused_interrupt2     !0X000000bc Trap instruction (user vectors)
+ 101              	
+ 102 00c0 00000420 	   .long noused_interrupt2     !0X000000c0 Trap instruction (user vectors)
+ 103              	
+ 104 00c4 00000420 	   .long noused_interrupt2     !0X000000c4 Trap instruction (user vectors)
+ 105              	
+ 106 00c8 00000420 	   .long noused_interrupt2     !0X000000c8 Trap instruction (user vectors)
+ 107              	
+ 108 00cc 00000420 	   .long noused_interrupt2     !0X000000cc Trap instruction (user vectors)
+ 109              	
+ 110 00d0 00000420 	   .long noused_interrupt2     !0X000000d0 Trap instruction (user vectors)
+ 111              	
+ 112 00d4 00000420 	   .long noused_interrupt2     !0X000000d4 Trap instruction (user vectors)
+ 113              	
+ 114 00d8 00000420 	   .long noused_interrupt2     !0X000000d8 Trap instruction (user vectors)
+			page 3
+
+
+ 115              	
+ 116 00dc 00000420 	   .long noused_interrupt2     !0X000000dc Trap instruction (user vectors)
+ 117              	
+ 118 00e0 00000420 	   .long noused_interrupt2     !0X000000e0 Trap instruction (user vectors)
+ 119              	
+ 120 00e4 00000420 	   .long noused_interrupt2     !0X000000e4 Trap instruction (user vectors)
+ 121              	
+ 122 00e8 00000420 	   .long noused_interrupt2     !0X000000e8 Trap instruction (user vectors)
+ 123              	
+ 124 00ec 00000420 	   .long noused_interrupt2     !0X000000ec Trap instruction (user vectors)
+ 125              	
+ 126 00f0 00000420 	   .long noused_interrupt2     !0X000000f0 Trap instruction (user vectors)
+ 127              	
+ 128 00f4 00000420 	   .long noused_interrupt2     !0X000000f4 Trap instruction (user vectors)
+ 129              	
+ 130 00f8 00000420 	   .long noused_interrupt2     !0X000000f8 Trap instruction (user vectors)
+ 131              	
+ 132 00fc 00000420 	   .long noused_interrupt2     !0X000000fc Trap instruction (user vectors)
+ 133              	
+ 134 0100 00000460 	   .long irq0     			   !0X00000100 IRQ0 IPRA (15¡V12)
+ 135              	
+ 136 0104 00000420 	   .long noused_interrupt2     		!0X00000104 IRQ1 IPRA (11¡V8)
+ 137              	
+ 138 0108 00000420 	   .long noused_interrupt2     !0X00000108 IRQ2 IPRA (7¡V4)
+ 139              	
+ 140 010c 00000420 	   .long noused_interrupt2     !0X0000010c IRQ3 IPRA (3¡V0)
+ 141              	
+ 142 0110 00000420 	   .long noused_interrupt2     !0X00000110 IRQ4 IPRB (15¡V12)
+ 143              	
+ 144 0114 00000420 	   .long noused_interrupt2     !0X00000114 IRQ5 IPRB (11¡V8)
+ 145              	
+ 146 0118 00000420 	   .long noused_interrupt2     !0X00000118 IRQ6 IPRB (7¡V4)
+ 147              	
+ 148 011c 00000420 	   .long noused_interrupt2     !0X0000011c IRQ7 IPRB (3¡V0)
+ 149              	
+ 150 0120 00000420 	   .long noused_interrupt2     !0X00000120 DMAC0DEI0 0¡V15 (0) IPRC (15¡V12) 3
+ 151              	
+ 152 0124 00000420 	   .long noused_interrupt2     !0X00000124 Reserved
+ 153              	
+ 154 0128 00000420 	   .long noused_interrupt2     !0X00000128 DMAC1DEI1
+ 155              	
+ 156 012c 00000420 	   .long noused_interrupt2     !0X0000012c Reserved
+ 157              	
+ 158 0130 00000420 	   .long noused_interrupt2     !0X00000130 DMAC2DEI2 0¡V15 (0) IPRC (11¡V8)
+ 159              	
+ 160 0134 00000420 	   .long noused_interrupt2     !0X00000134v Reserved
+ 161              	
+ 162 0138 00000420 	   .long noused_interrupt2     !0X00000138 DMAC3DEI3
+ 163              	
+ 164 013c 00000420 	   .long noused_interrupt2     !0X0000013c Reserved
+ 165              	
+ 166 0140 000004A8 	   .long IMIA0_IRQ     		!0X00000140 ITU0 IMIA0 0¡V15 (0) IPRC (7¡V4)
+ 167              	
+ 168 0144 000004C0 	   .long IMIB0_IRQ     		!0X00000144 IMIB0
+ 169              	
+ 170 0148 000004D0 	   .long OVI0_IRQ     		!0X00000148 OVI0
+ 171              	
+			page 4
+
+
+ 172 014c 00000420 	   .long noused_interrupt2     !0X0000014c Reserved
+ 173              	
+ 174 0150 000004E0 	   .long IMIA1_IRQ     !0X00000150 ITU1 IMIA1 0¡V15 (0) IPRC (3¡V0)
+ 175              	
+ 176 0154 000004F0 	   .long IMIB1_IRQ     !0X00000154 IMIB1
+ 177              	
+ 178 0158 00000500 	   .long OVI1_IRQ    !0X00000158 OVI1
+ 179              	
+ 180 015c 00000420 	   .long noused_interrupt2     !0X0000015c Reserved
+ 181              	
+ 182 0160 00000510 	   .long IMIA2_IRQ     !0X00000160 ITU2 IMIA2 0¡V15 (0) IPRD (15¡V12)
+ 183              	
+ 184 0164 00000520 	   .long IMIB2_IRQ     !0X00000164 IMIB2
+ 185              	
+ 186 0168 00000530 	   .long OVI2_IRQ     !0X00000168 OVI2
+ 187              	
+ 188 016c 00000420 	   .long noused_interrupt2     !0X0000016c Reserved
+ 189              	
+ 190 0170 00000540 	   .long IMIA3_IRQ     !0X00000170 ITU3 IMIA3 0¡V15 (0) IPRD (11¡V8)
+ 191              	
+ 192 0174 00000550 	   .long IMIB3_IRQ     !0X00000174 IMIB3
+ 193              	
+ 194 0178 00000560 	   .long OVI3_IRQ     !0X00000178 OVI3
+ 195              	
+ 196 017c 00000420 	   .long noused_interrupt2     !0X0000017c Reserved
+ 197              	
+ 198 0180 00000570 	   .long IMIA4_IRQ     !0X00000180 ITU4 IMIA4 0¡V15 (0) IPRD (7¡V4)
+ 199              	
+ 200 0184 00000580 	   .long IMIB4_IRQ     !0X00000184 IMIB4
+ 201              	
+ 202 0188 00000590 	   .long OVI4_IRQ     !0X00000188 OVI4
+ 203              	
+ 204 018c 00000420 	   .long noused_interrupt2     !0X0000018c Reserved
+ 205              	
+ 206 0190 00000420 	   .long noused_interrupt2     !0X00000190 SCI0 ERI0 0¡V15 (0) IPRD (3¡V0)
+ 207              	
+ 208 0194 00000420 	   .long noused_interrupt2     !0X00000194 RxI0
+ 209              	
+ 210 0198 00000420 	   .long noused_interrupt2     !0X00000198 TxI0
+ 211              	
+ 212 019c 00000420 	   .long noused_interrupt2     !0X0000019c TEI0
+ 213              	
+ 214 01a0 00000420 	   .long noused_interrupt2     !0X000001a0 SCI1 ERI1 0¡V15 (0) I PRE (15¡V12) 3
+ 215              	
+ 216 01a4 00000420 	   .long noused_interrupt2     !0X000001a4 RxI1
+ 217              	
+ 218 01a8 00000420 	   .long noused_interrupt2     !0X000001a8 TxI1
+ 219              	
+ 220 01ac 00000420 	   .long noused_interrupt2     !0X000001ac TEI1
+ 221              	
+ 222 01b0 00000420 	   .long noused_interrupt2     !0X000001b0 PRT*1 PEI 0¡V15 (0) IPRE (11¡V8)
+ 223              	
+ 224 01b4 00000420 	   .long noused_interrupt2     !0X000001b4 A/D ITI
+ 225              	
+ 226 01b8 00000420 	   .long noused_interrupt2     !0X000001b8 Reserved
+ 227              	
+ 228 01bc 00000420 	   .long noused_interrupt2     !0X000001bc Reserved
+			page 5
+
+
+ 229              	
+ 230 01c0 00000420 	   .long noused_interrupt2     !0X000001c0 WDT ITI 0¡V15 (0) IPRE (7¡V4)
+ 231              	
+ 232 01c4 00000420 	   .long noused_interrupt2     !0X000001c4 REF*2 CMI
+ 233              	
+ 234 01c8 00000420 	   .long noused_interrupt2     !0X000001c8 Reserved
+ 235              	
+ 236 01cc 00000420 	   .long noused_interrupt2     !0X000001cc Reserved
+ 237              	
+ 238 01d0 00000420 	   .long noused_interrupt2     !0X000001d0
+ 239              	
+ 240 01d4 00000420 	   .long noused_interrupt2     !0X000001d4
+ 241              	
+ 242 01d8 00000420 	   .long noused_interrupt2     !0X000001d8
+ 243              	
+ 244 01dc 00000420 	   .long noused_interrupt2     !0X000001dc
+ 245              	
+ 246 01e0 00000420 	   .long noused_interrupt2     !0X000001e0
+ 247              	
+ 248 01e4 00000420 	   .long noused_interrupt2     !0X000001e4
+ 249              	
+ 250 01e8 00000420 	   .long noused_interrupt2     !0X000001e8
+ 251              	
+ 252 01ec 00000420 	   .long noused_interrupt2     !0X000001ec
+ 253              	
+ 254 01f0 00000420 	   .long noused_interrupt2     !0X000001f0
+ 255              	
+ 256 01f4 00000420 	   .long noused_interrupt2     !0X000001f4
+ 257              	
+ 258 01f8 00000420 	   .long noused_interrupt2     !0X000001f8
+ 259              	
+ 260 01fc 00000420 	   .long noused_interrupt2     !0X000001fc
+ 261              	
+ 262 0200 00000420 	   .long noused_interrupt2     !0X00000200
+ 263              	
+ 264 0204 00000420 	   .long noused_interrupt2     !0X00000204
+ 265              	
+ 266 0208 00000420 	   .long noused_interrupt2     !0X00000208
+ 267              	
+ 268 020c 00000420 	   .long noused_interrupt2     !0X0000020c
+ 269              	
+ 270 0210 00000420 	   .long noused_interrupt2     !0X00000210
+ 271              	
+ 272 0214 00000420 	   .long noused_interrupt2     !0X00000214
+ 273              	
+ 274 0218 00000420 	   .long noused_interrupt2     !0X00000218
+ 275              	
+ 276 021c 00000420 	   .long noused_interrupt2     !0X0000021c
+ 277              	
+ 278 0220 00000420 	   .long noused_interrupt2     !0X00000220
+ 279              	
+ 280 0224 00000420 	   .long noused_interrupt2     !0X00000224
+ 281              	
+ 282 0228 00000420 	   .long noused_interrupt2     !0X00000228
+ 283              	
+ 284 022c 00000420 	   .long noused_interrupt2     !0X0000022c
+ 285              	
+			page 6
+
+
+ 286 0230 00000420 	   .long noused_interrupt2     !0X00000230
+ 287              	
+ 288 0234 00000420 	   .long noused_interrupt2     !0X00000234
+ 289              	
+ 290 0238 00000420 	   .long noused_interrupt2     !0X00000238
+ 291              	
+ 292 023c 00000420 	   .long noused_interrupt2     !0X0000023c
+ 293              	
+ 294 0240 00000420 	   .long noused_interrupt2     !0X00000240
+ 295              	
+ 296 0244 00000420 	   .long noused_interrupt2     !0X00000244
+ 297              	
+ 298 0248 00000420 	   .long noused_interrupt2     !0X00000248
+ 299              	
+ 300 024c 00000420 	   .long noused_interrupt2     !0X0000024c
+ 301              	
+ 302 0250 00000420 	   .long noused_interrupt2     !0X00000250
+ 303              	
+ 304 0254 00000420 	   .long noused_interrupt2     !0X00000254
+ 305              	
+ 306 0258 00000420 	   .long noused_interrupt2     !0X00000258
+ 307              	
+ 308 025c 00000420 	   .long noused_interrupt2     !0X0000025c
+ 309              	
+ 310 0260 00000420 	   .long noused_interrupt2     !0X00000260
+ 311              	
+ 312 0264 00000420 	   .long noused_interrupt2     !0X00000264
+ 313              	
+ 314 0268 00000420 	   .long noused_interrupt2     !0X00000268
+ 315              	
+ 316 026c 00000420 	   .long noused_interrupt2     !0X0000026c
+ 317              	
+ 318 0270 00000420 	   .long noused_interrupt2     !0X00000270
+ 319              	
+ 320 0274 00000420 	   .long noused_interrupt2     !0X00000274
+ 321              	
+ 322 0278 00000420 	   .long noused_interrupt2     !0X00000278
+ 323              	
+ 324 027c 00000420 	   .long noused_interrupt2     !0X0000027c
+ 325              	
+ 326 0280 00000420 	   .long noused_interrupt2     !0X00000280
+ 327              	
+ 328 0284 00000420 	   .long noused_interrupt2     !0X00000284
+ 329              	
+ 330 0288 00000420 	   .long noused_interrupt2     !0X00000288
+ 331              	
+ 332 028c 00000420 	   .long noused_interrupt2     !0X0000028c
+ 333              	
+ 334 0290 00000420 	   .long noused_interrupt2     !0X00000290
+ 335              	
+ 336 0294 00000420 	   .long noused_interrupt2     !0X00000294
+ 337              	
+ 338 0298 00000420 	   .long noused_interrupt2     !0X00000298
+ 339              	
+ 340 029c 00000420 	   .long noused_interrupt2     !0X0000029c
+ 341              	
+ 342 02a0 00000420 	   .long noused_interrupt2     !0X000002a0
+			page 7
+
+
+ 343              	
+ 344 02a4 00000420 	   .long noused_interrupt2     !0X000002a4
+ 345              	
+ 346 02a8 00000420 	   .long noused_interrupt2     !0X000002a8
+ 347              	
+ 348 02ac 00000420 	   .long noused_interrupt2     !0X000002ac
+ 349              	
+ 350 02b0 00000420 	   .long noused_interrupt2     !0X000002b0
+ 351              	
+ 352 02b4 00000420 	   .long noused_interrupt2     !0X000002b4
+ 353              	
+ 354 02b8 00000420 	   .long noused_interrupt2     !0X000002b8
+ 355              	
+ 356 02bc 00000420 	   .long noused_interrupt2     !0X000002bc
+ 357              	
+ 358 02c0 00000420 	   .long noused_interrupt2     !0X000002c0
+ 359              	
+ 360 02c4 00000420 	   .long noused_interrupt2     !0X000002c4
+ 361              	
+ 362 02c8 00000420 	   .long noused_interrupt2     !0X000002c8
+ 363              	
+ 364 02cc 00000420 	   .long noused_interrupt2     !0X000002cc
+ 365              	
+ 366 02d0 00000420 	   .long noused_interrupt2     !0X000002d0
+ 367              	
+ 368 02d4 00000420 	   .long noused_interrupt2     !0X000002d4
+ 369              	
+ 370 02d8 00000420 	   .long noused_interrupt2     !0X000002d8
+ 371              	
+ 372 02dc 00000420 	   .long noused_interrupt2     !0X000002dc
+ 373              	
+ 374 02e0 00000420 	   .long noused_interrupt2     !0X000002e0
+ 375              	
+ 376 02e4 00000420 	   .long noused_interrupt2     !0X000002e4
+ 377              	
+ 378 02e8 00000420 	   .long noused_interrupt2     !0X000002e8
+ 379              	
+ 380 02ec 00000420 	   .long noused_interrupt2     !0X000002ec
+ 381              	
+ 382 02f0 00000420 	   .long noused_interrupt2     !0X000002f0
+ 383              	
+ 384 02f4 00000420 	   .long noused_interrupt2     !0X000002f4
+ 385              	
+ 386 02f8 00000420 	   .long noused_interrupt2     !0X000002f8
+ 387              	
+ 388 02fc 00000420 	   .long noused_interrupt2     !0X000002fc
+ 389              	
+ 390 0300 00000420 	   .long noused_interrupt2     !0X00000300
+ 391              	
+ 392 0304 00000420 	   .long noused_interrupt2     !0X00000304
+ 393              	
+ 394 0308 00000420 	   .long noused_interrupt2     !0X00000308
+ 395              	
+ 396 030c 00000420 	   .long noused_interrupt2     !0X0000030c
+ 397              	
+ 398 0310 00000420 	   .long noused_interrupt2     !0X00000310
+ 399              	
+			page 8
+
+
+ 400 0314 00000420 	   .long noused_interrupt2     !0X00000314
+ 401              	
+ 402 0318 00000420 	   .long noused_interrupt2     !0X00000318
+ 403              	
+ 404 031c 00000420 	   .long noused_interrupt2     !0X0000031c
+ 405              	
+ 406 0320 00000420 	   .long noused_interrupt2     !0X00000320
+ 407              	
+ 408 0324 00000420 	   .long noused_interrupt2     !0X00000324
+ 409              	
+ 410 0328 00000420 	   .long noused_interrupt2     !0X00000328
+ 411              	
+ 412 032c 00000420 	   .long noused_interrupt2     !0X0000032c
+ 413              	
+ 414 0330 00000420 	   .long noused_interrupt2     !0X00000330
+ 415              	
+ 416 0334 00000420 	   .long noused_interrupt2     !0X00000334
+ 417              	
+ 418 0338 00000420 	   .long noused_interrupt2     !0X00000338
+ 419              	
+ 420 033c 00000420 	   .long noused_interrupt2     !0X0000033c
+ 421              	
+ 422 0340 00000420 	   .long noused_interrupt2     !0X00000340
+ 423              	
+ 424 0344 00000420 	   .long noused_interrupt2     !0X00000344
+ 425              	
+ 426 0348 00000420 	   .long noused_interrupt2     !0X00000348
+ 427              	
+ 428 034c 00000420 	   .long noused_interrupt2     !0X0000034c
+ 429              	
+ 430 0350 00000420 	   .long noused_interrupt2     !0X00000350
+ 431              	
+ 432 0354 00000420 	   .long noused_interrupt2     !0X00000354
+ 433              	
+ 434 0358 00000420 	   .long noused_interrupt2     !0X00000358
+ 435              	
+ 436 035c 00000420 	   .long noused_interrupt2     !0X0000035c
+ 437              	
+ 438 0360 00000420 	   .long noused_interrupt2     !0X00000360
+ 439              	
+ 440 0364 00000420 	   .long noused_interrupt2     !0X00000364
+ 441              	
+ 442 0368 00000420 	   .long noused_interrupt2     !0X00000368
+ 443              	
+ 444 036c 00000420 	   .long noused_interrupt2     !0X0000036c
+ 445              	
+ 446 0370 00000420 	   .long noused_interrupt2     !0X00000370
+ 447              	
+ 448 0374 00000420 	   .long noused_interrupt2     !0X00000374
+ 449              	
+ 450 0378 00000420 	   .long noused_interrupt2     !0X00000378
+ 451              	
+ 452 037c 00000420 	   .long noused_interrupt2     !0X0000037c
+ 453              	
+ 454 0380 00000420 	   .long noused_interrupt2     !0X00000380
+ 455              	
+ 456 0384 00000420 	   .long noused_interrupt2     !0X00000384
+			page 9
+
+
+ 457              	
+ 458 0388 00000420 	   .long noused_interrupt2     !0X00000388
+ 459              	
+ 460 038c 00000420 	   .long noused_interrupt2     !0X0000038c
+ 461              	
+ 462 0390 00000420 	   .long noused_interrupt2     !0X00000390
+ 463              	
+ 464 0394 00000420 	   .long noused_interrupt2     !0X00000394
+ 465              	
+ 466 0398 00000420 	   .long noused_interrupt2     !0X00000398
+ 467              	
+ 468 039c 00000420 	   .long noused_interrupt2     !0X0000039c
+ 469              	
+ 470 03a0 00000420 	   .long noused_interrupt2     !0X000003a0
+ 471              	
+ 472 03a4 00000420 	   .long noused_interrupt2     !0X000003a4
+ 473              	
+ 474 03a8 00000420 	   .long noused_interrupt2     !0X000003a8
+ 475              	
+ 476 03ac 00000420 	   .long noused_interrupt2     !0X000003ac
+ 477              	
+ 478 03b0 00000420 	   .long noused_interrupt2     !0X000003b0
+ 479              	
+ 480 03b4 00000420 	   .long noused_interrupt2     !0X000003b4
+ 481              	
+ 482 03b8 00000420 	   .long noused_interrupt2     !0X000003b8
+ 483              	
+ 484 03bc 00000420 	   .long noused_interrupt2     !0X000003bc
+ 485              	
+ 486 03c0 00000420 	   .long noused_interrupt2     !0X000003c0
+ 487              	
+ 488 03c4 00000420 	   .long noused_interrupt2     !0X000003c4
+ 489              	
+ 490 03c8 00000420 	   .long noused_interrupt2     !0X000003c8
+ 491              	
+ 492 03cc 00000420 	   .long noused_interrupt2     !0X000003cc
+ 493              	
+ 494 03d0 00000420 	   .long noused_interrupt2     !0X000003d0
+ 495              	
+ 496 03d4 00000420 	   .long noused_interrupt2     !0X000003d4
+ 497              	
+ 498 03d8 00000420 	   .long noused_interrupt2     !0X000003d8
+ 499              	
+ 500 03dc 00000420 	   .long noused_interrupt2     !0X000003dc
+ 501              	
+ 502 03e0 00000420 	   .long noused_interrupt2     !0X000003e0
+ 503              	
+ 504 03e4 00000420 	   .long noused_interrupt2     !0X000003e4
+ 505              	
+ 506 03e8 00000420 	   .long noused_interrupt2     !0X000003e8
+ 507              	
+ 508 03ec 00000420 	   .long noused_interrupt2     !0X000003ec
+ 509              	
+ 510 03f0 00000420 	   .long noused_interrupt2     !0X000003f0
+ 511              	
+ 512 03f4 00000420 	   .long noused_interrupt2     !0X000003f4
+ 513              	
+			page 10
+
+
+ 514 03f8 00000420 	   .long noused_interrupt2     !0X000003f8
+ 515              	
+ 516 03fc 00000420 	   .long noused_interrupt2     !0X000003fc
+ 517              	   
+ 518              	 .ORG 0X00000400  
+ 519              	noused_interrupt:
+ 520              	
+ 521 0400 002B     	     RTE   !     ! 
+ 522 0402 0009     	     NOP        ! 
+ 523 0404 00000000 	 .ORG 0X00000420 	 
+ 523      00000000 
+ 523      00000000 
+ 523      00000000 
+ 523      00000000 
+ 524              	noused_interrupt2:
+ 525              	
+ 526 0420 002B     	     RTE   !     ! 
+ 527 0422 0009     	     NOP        ! 
+ 528              		
+ 529 0424 00000000 	.org 0x00000440	
+ 529      00000000 
+ 529      00000000 
+ 529      00000000 
+ 529      00000000 
+ 530              	nmi:
+ 531 0440 200A     	     XOR R0,R0 		
+ 532 0442 002B     	     RTE   !     ! 
+ 533 0444 0009     	     NOP  
+ 534 0446 0009     	     NOP
+ 535              	
+ 536 0448 00000000 	.org 0x00000460	
+ 536      00000000 
+ 536      00000000 
+ 536      00000000 
+ 536      00000000 
+ 537              	irq0:
+ 538 0460 200A     	     XOR R0,R0 		
+ 539 0462 002B     	     RTE   !     ! 
+ 540 0464 0009     	     NOP  
+ 541 0466 0009     	     NOP
+ 542              	
+ 543 0468 00000000 	.org 0x00000480	
+ 543      00000000 
+ 543      00000000 
+ 543      00000000 
+ 543      00000000 
+ 544              	noused_interrupt3:
+ 545 0480 200A     		XOR R0,R0 		
+ 546 0482 C321     		TRAPA	#0X21 			!0X20*4=0X80 ±N0X80¹ïÀ³ªº¦ì¸m·í¦¨¤¤Â_
+ 547 0484 C800     		TST 	#0,R0 
+ 548 0486 0009     		NOP
+ 549 0488 0009     		NOP
+ 550 048a 002B     		RTE 			!; ªð¦^¤W­zTST¡C
+ 551 048c 0009     		NOP 			!; ¦bRTE «e?¦æ¡C
+ 552              	
+ 553 048e 00000000 	.org 0x000004a0	
+ 553      00000000 
+			page 11
+
+
+ 553      00000000 
+ 553      00000000 
+ 553      0000
+ 554              	noused_interrupt4:
+ 555 04a0 200A     		XOR R0,R0 		
+ 556 04a2 002B     		RTE 			!; ªð¦^¤W­zTST¡C
+ 557 04a4 0009     		NOP 			!; ¦bRTE «e?¦æ¡C
+ 558              	
+ 559              	
+ 560 04a6 0000     	.org 0x000004A8
+ 561              	!TPCDATA1:	.LONG   0XC0406020  
+ 562              	!TPCDATA2:	.LONG   0X30101808
+ 563              	!TPCDATA3:	.LONG	0X8880C040
+ 564              	!R12=@TPCDATA
+ 565              	IMIA0_IRQ:	!§Q¥ÎGRA0¤ñ¸û¨ì«á±N¯Á¤Þ¨ìªº¸ê®Æ¶Ç°e¨ìNDRB
+ 566 04a8 9479     	     MOV.W	_IN0000,R4
+ 567 04aa D33D     	     MOV.L	TSR0,R3
+ 568 04ac 2340     	     MOV.B	R4,@R3    
+ 569 04ae 67C4     	     MOV.B 	@R12+,R7
+ 570 04b0 D840     	     MOV.L	NDRB_1,R8
+ 571 04b2 2870     	     MOV.B	R7,@R8
+ 572 04b4 002B     	     RTE   !     ! 
+ 573 04b6 0009     	     NOP  
+ 574 04b8 0009     	     NOP
+ 575 04ba 0009     	     NOP
+ 576              	     
+ 577 04bc 00000000 	.org 0x000004c0
+ 578              	IMIB0_IRQ:
+ 579 04c0 946D     	    MOV.W	_IN0000,R4
+ 580 04c2 D337     	     MOV.L	TSR0,R3
+ 581 04c4 2340     	     MOV.B	R4,@R3
+ 582 04c6 002B     	     RTE   !     ! 
+ 583 04c8 0009     	     NOP  
+ 584 04ca 0009     	     NOP
+ 585              	     
+ 586 04cc 00000000 	.org 0x000004D0
+ 587              	OVI0_IRQ:
+ 588 04d0 9465     	     MOV.W	_IN0000,R4
+ 589 04d2 D333     	     MOV.L	TSR0,R3
+ 590 04d4 2340     	     MOV.B	R4,@R3
+ 591 04d6 002B     	     RTE   !     ! 
+ 592 04d8 0009     	     NOP  
+ 593 04da 0009     	     NOP       
+ 594              	     
+ 595 04dc 00000000 	 .org 0x000004E0
+ 596              	IMIA1_IRQ:
+ 597 04e0 945D     	     MOV.W	_IN0000,R4
+ 598 04e2 D330     	     MOV.L	TSR1,R3
+ 599 04e4 2340     	     MOV.B	R4,@R3
+ 600 04e6 002B     	     RTE   !     ! 
+ 601 04e8 0009     	     NOP  
+ 602 04ea 0009     	     NOP
+ 603              	     
+ 604 04ec 00000000 	 .org 0x000004F0
+ 605              	IMIB1_IRQ:
+ 606 04f0 9455     	     MOV.W	_IN0000,R4
+ 607 04f2 D32C     	     MOV.L	TSR1,R3
+			page 12
+
+
+ 608 04f4 2340     	     MOV.B	R4,@R3
+ 609 04f6 002B     	     RTE   
+ 610 04f8 0009     	     NOP  
+ 611 04fa 0009     	     NOP
+ 612              	
+ 613 04fc 00000000 	.org 0x00000500
+ 614              	OVI1_IRQ:
+ 615 0500 944D     	     MOV.W	_IN0000,R4
+ 616 0502 D328     	     MOV.L	TSR1,R3
+ 617 0504 2340     	     MOV.B	R4,@R3
+ 618 0506 002B     	     RTE   
+ 619 0508 0009     	     NOP  
+ 620 050a 0009     	     NOP  
+ 621              	
+ 622 050c 00000000 	 .org 0x00000510
+ 623              	IMIA2_IRQ:
+ 624 0510 9445     	     MOV.W	_IN0000,R4
+ 625 0512 D325     	     MOV.L	TSR2,R3
+ 626 0514 2340     	     MOV.B	R4,@R3
+ 627 0516 002B     	     RTE   !     ! 
+ 628 0518 0009     	     NOP  
+ 629 051a 0009     	     NOP
+ 630              	     
+ 631 051c 00000000 	 .org 0x00000520
+ 632              	IMIB2_IRQ:
+ 633 0520 943D     	     MOV.W	_IN0000,R4
+ 634 0522 D321     	     MOV.L	TSR2,R3
+ 635 0524 2340     	     MOV.B	R4,@R3
+ 636 0526 002B     	     RTE   
+ 637 0528 0009     	     NOP  
+ 638 052a 0009     	     NOP
+ 639              	
+ 640 052c 00000000 	.org 0x00000530
+ 641              	OVI2_IRQ:
+ 642 0530 9435     	     MOV.W	_IN0000,R4
+ 643 0532 D31D     	     MOV.L	TSR2,R3
+ 644 0534 2340     	     MOV.B	R4,@R3
+ 645 0536 002B     	     RTE   
+ 646 0538 0009     	     NOP  
+ 647 053a 0009     	     NOP 
+ 648              	     
+ 649 053c 00000000 	   .org 0x00000540
+ 650              	IMIA3_IRQ:
+ 651 0540 942D     	     MOV.W	_IN0000,R4
+ 652 0542 D31A     	     MOV.L	TSR3,R3
+ 653 0544 2340     	     MOV.B	R4,@R3
+ 654 0546 002B     	     RTE   !     ! 
+ 655 0548 0009     	     NOP  
+ 656 054a 0009     	     NOP
+ 657              	     
+ 658 054c 00000000 	 .org 0x00000550
+ 659              	IMIB3_IRQ:
+ 660 0550 9425     	     MOV.W	_IN0000,R4
+ 661 0552 D316     	     MOV.L	TSR3,R3
+ 662 0554 2340     	     MOV.B	R4,@R3
+ 663 0556 002B     	     RTE   
+ 664 0558 0009     	     NOP  
+			page 13
+
+
+ 665 055a 0009     	     NOP
+ 666              	
+ 667 055c 00000000 	.org 0x00000560
+ 668              	OVI3_IRQ:
+ 669 0560 941D     	     MOV.W	_IN0000,R4
+ 670 0562 D312     	     MOV.L	TSR3,R3
+ 671 0564 2340     	     MOV.B	R4,@R3
+ 672 0566 002B     	     RTE   
+ 673 0568 0009     	     NOP  
+ 674 056a 0009     	     NOP    
+ 675              	     
+ 676 056c 00000000 	 .org 0x00000570
+ 677              	IMIA4_IRQ:
+ 678 0570 9415     	     MOV.W	_IN0000,R4
+ 679 0572 D30F     	     MOV.L	TSR4,R3
+ 680 0574 2340     	     MOV.B	R4,@R3
+ 681 0576 002B     	     RTE   !     ! 
+ 682 0578 0009     	     NOP  
+ 683 057a 0009     	     NOP
+ 684              	     
+ 685 057c 00000000 	 .org 0x00000580
+ 686              	IMIB4_IRQ:
+ 687 0580 940D     	     MOV.W	_IN0000,R4
+ 688 0582 D30B     	     MOV.L	TSR4,R3
+ 689 0584 2340     	     MOV.B	R4,@R3
+ 690 0586 002B     	     RTE   
+ 691 0588 0009     	     NOP  
+ 692 058a 0009     	     NOP
+ 693              	
+ 694 058c 00000000 	.org 0x00000590
+ 695              	OVI4_IRQ:
+ 696 0590 9405     	     MOV.W	_IN0000,R4
+ 697 0592 D304     	     MOV.L	TSR1,R3
+ 698 0594 2340     	     MOV.B	R4,@R3
+ 699 0596 002B     	     RTE   
+ 700 0598 0009     	     NOP  
+ 701 059a 0009     	     NOP      
+ 702              	     
+ 703              	     
+ 704              	     
+ 705              	     
+ 706              	     
+ 707 059c FFFF     	OUTFFFF:	.WORD  0XFFFF     
+ 708 059e 0000     	_IN0000:	.WORD	0X0000    
+ 709 05a0 05FFFF07 	TSR0:		.long  0x05ffff07
+ 710 05a4 05FFFF11 	TSR1:		.long  0x05ffff11   
+ 711 05a8 05FFFF1B 	TSR2:		.LONG  0X05FFFF1B 
+ 712 05ac 05FFFF25 	TSR3:		.long  0x05FFFF25
+ 713 05b0 05FFFF35 	TSR4:		.long  0x05FFFF35 
+ 714              	
+ 715 05b4 05FFFFF4 	NDRB_1:		.LONG   0x05FFFFF4
+ 716              	
+ 717 05b8 00000000 	.org 0x00000600	
+ 717      00000000 
+ 717      00000000 
+ 717      00000000 
+ 717      00000000 
+			page 14
+
+
+ 718              	!000050BC¬OPWM0³]©wªº¦ì¸m
+ 719              	start:   
+ 720              	!----------------------------------------------
+ 721              	!!IRQ3,IRQ2,IRQ1,IRQ0,TIOCB1,TIOCA1,IRQOUT,A8 IO	
+ 722 0600 D255     		MOV.L	PACR1,R2	!³]©w¤¤Â_¶}±Ò
+ 723 0602 9341     		MOV.W	PACR1DATA,R3
+ 724 0604 2231     		MOV.W	R3,@R2
+ 725              	!------------------------------------------	
+ 726              	!PA7,RD,WRH,WRL,CS7,CS6,CS5,CS4	
+ 727 0606 D255     		MOV.L	PACR2,R2
+ 728 0608 933F     		MOV.W	PACR2DATA,R3
+ 729 060a 2231     		MOV.W	R3,@R2
+ 730              		
+ 731              		
+ 732              	!-------------------------------------------
+ 733              	!PBCR1DATA:	.WORD	0XFFFF	!TP15,~TP8	
+ 734 060c D254     		MOV.L	PBCR1,R2	!¨Ï¥ÎTPC
+ 735 060e 933D     		MOV.W	PBCR1DATA,R3
+ 736 0610 2231     		MOV.W	R3,@R2
+ 737              	!------------------------------------------------	
+ 738              	!PBCR2DATA:	.WORD   0XFFFF	!TP7~TP0	
+ 739 0612 D254     		MOV.L	PBCR2,R2
+ 740 0614 933B     		MOV.W	PBCR2DATA,R3
+ 741 0616 2231     		MOV.W	R3,@R2
+ 742              	!-------------------------------------------------
+ 743              		
+ 744              		
+ 745 0618 DA4E     		MOV.L	OUTFFFFFFFF,R10	
+ 746 061a DB37     		MOV.L	IPRC,R11	!IRQ0~IRQ3=FFFF	
+ 747 061c 2BA1     		MOV.W   R10,@R11
+ 748 061e DB35     		MOV.L	IPRA,R11	!IRQ0~IRQ3=FFFF	
+ 749 0620 2BA1     		MOV.W   R10,@R11
+ 750 0622 DB36     		MOV.L	IPRD,R11	!IRQ0~IRQ3=FFFF	
+ 751 0624 2BA1     		MOV.W   R10,@R11
+ 752              	!--------------------------------------------
+ 753 0626 D226     		MOV.L	BSC,R2
+ 754 0628 9349     		MOV.W	BSCDATA,R3
+ 755 062a 2231     		MOV.W	R3,@R2
+ 756 062c 0009     		NOP	
+ 757              	!----------------------------------------------------------	
+ 758              	!TIOR0DATA:	.WORD   0X0002	!1 output on GRA compare match
+ 759 062e D338     		MOV.L	TIOR0,R3
+ 760 0630 9234     		MOV.W	TIOR0DATA,R2	!1001=0 output at GRB compare match;1010= 1 output at GRA compare match
+ 761 0632 2321     		MOV.W	R2,@R3		!SET TIOR0
+ 762              	!-------------------------------------------------------------
+ 763              	!0XC0³]©w¥¿±`¼Ò¦¡¡X ¡X CMD1 CMD0 BFB4 BFA4 BFB3 BFA3	
+ 764 0634 D334     		MOV.L	TFCR,R3
+ 765 0636 9232     		MOV.W	TFCRDATA,R2	!³]©w·íGRB¤ñ¸û¨ì«á²M°£COUNTER=0
+ 766 0638 2321     		MOV.W	R2,@R3		!SET TFCR	
+ 767              	!------------------------------------	
+ 768              	
+ 769              	!-----------------------------------
+ 770              	
+ 771              	!MDRDATA:	.word 0X009F 	!0x009f PWM0~PWM4³£±Ò¥Î CHANNEL2¥¿±`¼Ò¦¡	
+ 772 063a D332     		MOV.L	TMDR,R3
+ 773 063c 9230     		MOV.W	TMDRDATA,R2	!!0x009f PWM0~PWM4³£±Ò¥Î CHANNEL2¥¿±`¼Ò¦¡
+ 774 063e 2321     		MOV.W	R2,@R3		!SET TMDR
+			page 15
+
+
+ 775              	!-----------------------------------------------------
+ 776 0640 D336     		MOV.L	GRA0,R3
+ 777 0642 9225     		MOV.W	GRA0DATA,R2	!0x0100
+ 778 0644 2321     		MOV.W	R2,@R3		!SET GRA0 DATA
+ 779              	!--------------------------------------------------
+ 780              	!0x0350 µL¥Î	
+ 781 0646 D336     		MOV.L	GRB0,R3
+ 782 0648 9223     		MOV.W	GRB0DATA,R2	
+ 783 064a 2321     		MOV.W	R2,@R3		!SET GRB0 DATA
+ 784              	
+ 785              	!------------------------------------------------------	
+ 786              	!TCR0DATA:	.word  0x0020	!GRA0¤ñ¸û¨ì«á²M¬°0	
+ 787 064c D32F     		MOV.L	TCR0,R3
+ 788 064e 9228     		MOV.W	TCR0DATA,R2	!0XC0 ªí¥Ü·íGRB¤ñ¸û¨ì«á²M¬°0
+ 789 0650 2321     		MOV.W	R2,@R3		!SET TCR0
+ 790              	!---------------------------------------------------------
+ 791              	!TIER0DATA:	.WORD  0x0001  !IMEA,¤¤Â_±Ò°Ê	
+ 792 0652 D330     		MOV.L	TIER0,R3
+ 793 0654 9226     		MOV.W	TIER0DATA,R2	!0XFF ªí¥Ü¥u­nGRA©Î¬OGRB©Î¬OOVF¤ñ¸û¨ì«á³£²£¥Í¤¤Â_
+ 794 0656 2321     		MOV.W	R2,@R3		!SET TIER0
+ 795              		
+ 796              	!------------------------------------------------------	
+ 797              	!TCNT0=0000
+ 798 0658 D32F     		MOV.L	TCNT0,R3
+ 799 065a 9225     		MOV.W	TCNT0DATA,R2	!0000±q0¶}©l
+ 800 065c 2321     		MOV.W	R2,@R3		!SET TCNT0
+ 801              		
+ 802              	
+ 803              	!-----------------------------------------
+ 804              	!PBDRDATA:	.WORD 0X8000	PB11=OUTPUT
+ 805 065e 9229     		MOV.W	PBDRDATA,R2
+ 806 0660 D341     		MOV.L	PBDR,R3
+ 807 0662 2321     		MOV.W	R2,@R3
+ 808              		
+ 809              	!--------------------------------------------	
+ 810              	!TPMRDATA:	.WORD 0X00F0	
+ 811              	!BIT 3=0 TPC output group 3 operates normally
+ 812              	!BIT 2=0 TPC output group 2 operates normally
+ 813              	!BIT 1=0 TPC output group 1 operates normally
+ 814              	!BIT 0=0 TPC output group 0 operates normally
+ 815              	
+ 816 0664 9229     		MOV.W	TPMRDATA,R2
+ 817 0666 D341     		MOV.L	TPMR,R3
+ 818 0668 2321     		MOV.W	R2,@R3
+ 819              	!--------------------------------------------------
+ 820              	!0000 ¦@¦P¨Ï¥ÎITU0
+ 821              	!BIT7=0 BIT6=0 TPC output group 3 (TP15¡VTP12) output is triggered by compare match in ITU channel 
+ 822              	!BIT5=0 BIT4=0 TPC output group 2 (TP11¡VTP8) output is triggered by compare match in ITU channel 0
+ 823              	!BIT3=0 BIT2=0 TPC output group 2 (TP7¡VTP4) output is triggered by compare match in ITU channel 0
+ 824              	!BIT1=0 BIT0=0 TPC output group 2 (TP3¡VTP0) output is triggered by compare match in ITU channel 0
+ 825              		
+ 826 066a 9225     		MOV.W	TPCRDATA,R2
+ 827 066c D340     		MOV.L	TPCR,R3
+ 828 066e 2321     		MOV.W	R2,@R3
+ 829              		
+ 830              		
+ 831              	!-----------------------------------------
+			page 16
+
+
+ 832              	!NDERBDATA:	.WORD 0X00F8
+ 833              	!±Ò¥ÎTP15,TP14,TP13,TP12,TP11	
+ 834 0670 9221     		MOV.W	NDERBDATA,R2
+ 835 0672 D340     		MOV.L	NDERB,R3
+ 836 0674 2321     		MOV.W	R2,@R3
+ 837              	!-------------------------------------------------------------------	
+ 838              	!¤U¤@­Ó¸ê®Æ¼È¦s¾¹ B (NDRB) NDRB ¬O¤@­Ó 8 ¦ì¤¸Åª/¼g¼È¦s¾¹¡A¥Î©óÀx¦s TPC ¿é¥X²Õ 3 ©M 2 (TP15¡VTP8) ªº
+ 839              	!NDRB ªº¦ì§}®Ú¾Ú TPCR ³]©w¬O§_¬° TPC ¿é¥X²Õ 3 ©M 2 ¿ï¾Ü¬Û¦PÄ²µo¾¹©Î ¤£¦PªºÄ²µo¾¹¦Ó¤£¦P¡C«Ý¾÷¼Ò¦¡¤U¥
+ 840              	!NDRB==0080	
+ 841 0676 9221     		MOV.W	NDRBDATA,R2
+ 842 0678 DB41     		MOV.L	NDRB,R11
+ 843 067a 2B21     		MOV.W	R2,@R11
+ 844              		
+ 845 067c DC19     		MOV.L	_TPCDATA1,R12!¥ý±N·Ç³Æ­n¿é¥X¸ê®Æªº¦ì¸m©ñ¨ìR12;
+ 846              	
+ 847              		
+ 848              		
+ 849              		
+ 850 067e D441     		MOV.L	TESTPWM3,R4
+ 851 0680 442B     		JMP	@R4
+ 852 0682 0009     		NOP
+ 853 0684 0009     		NOP
+ 854 0686 0009     		NOP
+ 855              		!NOP
+ 856              	
+ 857              	
+ 858              		
+ 859              	!-------------------------------------------	
+ 860              		
+ 861              	
+ 862              	
+ 863              	
+ 864 0688 55AC     	PACR1DATA:	.WORD   0X55AC	!IRQ3,IRQ2,IRQ1,IRQ0,TIOCB1,TIOCA1,IRQOUT,A8 IO
+ 865 068a BF55     	PACR2DATA:	.WORD	0XBF55	!PA7,RD,WRH,WRL,CS7,CS6,CS5,CS4
+ 866 068c FFFF     	PBCR1DATA:	.WORD	0XFFFF	!TP15,~TP8
+ 867 068e FFFF     	PBCR2DATA:	.WORD   0XFFFF	!TP7~TP0
+ 868 0690 0100     	GRA0DATA:	.WORD   0x0100
+ 869 0692 0350     	GRB0DATA:	.WORD   0x0350
+ 870 0694 0200     	GRA1DATA:	.WORD   0x0200
+ 871 0696 0450     	GRB1DATA:	.WORD   0x0450
+ 872 0698 0300     	GRA2DATA:	.WORD  	0X0300
+ 873 069a 0550     	GRB2DATA:	.WORD  	0X0550
+ 874              	
+ 875              	
+ 876              	
+ 877              	
+ 878              	!1001=0 output at GRB compare match;1010= 1 output at GRA compare match
+ 879 069c 0002     	TIOR0DATA:	.WORD   0X0002	!1 output on GRA compare match
+ 880              	
+ 881              	!Channels 3 and 4 operate normally,GRB4 operates normally in channel 4,GRA4 operates normally in ch
+ 882 069e 00C0     	TFCRDATA:	.word  0x00c0 	!0XC0³]©w¥¿±`¼Ò¦¡¡X ¡X CMD1 CMD0 BFB4 BFA4 BFB3 BFA3
+ 883              	
+ 884              	!009F Channel 2 operates normally,OVF of TSR2 is set to 1 when TCNT2 overflows or underflows, 
+ 885 06a0 009F     	TMDRDATA:	.word 0X009F 	!0x009f PWM0~PWM4³£±Ò¥Î CHANNEL2¥¿±`¼Ò¦¡
+ 886              	
+ 887              	!TCNT is cleared by general register B (GRB) compare match or input,Count rising edges,0 0 0 Intern
+ 888 06a2 0020     	TCR0DATA:	.word  0x0020	!GRA0¤ñ¸û¨ì«á²M¬°0
+			page 17
+
+
+ 889              	
+ 890              	!°_°ÊIMEA¤¤Â_
+ 891 06a4 0001     	TIER0DATA:	.WORD  0x0001  !IMEA,¤¤Â_±Ò°Ê
+ 892 06a6 00FF     	TIER1DATA:	.WORD  0x00ff  !IMEA,IMEB
+ 893 06a8 0000     	TCNT0DATA:	.WORD  0X0000
+ 894 06aa 00FF     	TOCRDATA:	.word  0x00ff  !INIT=FF
+ 895              	
+ 896              	!--------------------------
+ 897 06ac 00C0     	TCR2DATA:	.WORD  0X00C0
+ 898 06ae 00FF     	TIOR2DATA:	.WORD  0X00FF	!FF=A=BOTH,B=BOTH;DD=A¤U,B¤U;CC=A=¤W,B=¤W;DF=A ÂùÃä,B=¤U­°
+ 899 06b0 FFFF     	TIER2DATA:	.WORD  0XFFFF
+ 900 06b2 0000     	TCNT2DATA:	.WORD  0X0000
+ 901              	!------------------------------
+ 902              	
+ 903 06b4 8000     	PBDRDATA:	.WORD 0X8000
+ 904 06b6 00F8     	NDERBDATA:	.WORD 0X00F8
+ 905 06b8 0000     	TPCRDATA:	.WORD 0X0000
+ 906 06ba 00F0     	TPMRDATA:	.WORD 0X00F0
+ 907 06bc 0080     	NDRBDATA:	.WORD 0X0080
+ 908 06be 8888     	BSCDATA:	.WORD 0X8888
+ 909 06c0 05FFFFA0 	BSC:		.LONG   0X05FFFFA0
+ 910 06c4 0A000000 	_A0000000:	.LONG	0X0A000000
+ 911 06c8 0A000001 	_A0000001:	.LONG	0X0A000001
+ 912 06cc 0A000002 	_A0000002:	.LONG	0X0A000002
+ 913 06d0 0A000003 	_A0000003:	.LONG	0X0A000003
+ 914 06d4 0A000004 	_A0000004:	.LONG	0X0A000004
+ 915 06d8 0A000005 	_A0000005:	.LONG	0X0A000005
+ 916 06dc 0A000006 	_A0000006:	.LONG	0X0A000006
+ 917 06e0 0A000007 	_A0000007:	.LONG	0X0A000007
+ 918              	
+ 919              	
+ 920 06e4 000006E8 	_TPCDATA1:	.LONG 	TPCDATA1
+ 921 06e8 C0406020 	TPCDATA1:	.LONG   0XC0406020  
+ 922 06ec 30101808 	TPCDATA2:	.LONG   0X30101808
+ 923 06f0 8880C040 	TPCDATA3:	.LONG	0X8880C040
+ 924              	!----------------------------
+ 925 06f4 05FFFF84 	IPRA:		.long  0X05ffff84
+ 926 06f8 05FFFF88 	IPRC:		.long  0x05FFFF88
+ 927 06fc 05FFFF8A 	IPRD:		.LONG  0X05FFFF8A 
+ 928 0700 05FFFF01 	TSNC:		.long  0x05ffff01
+ 929 0704 05FFFF02 	TMDR:		.long  0x05ffff02
+ 930 0708 05FFFF03 	TFCR:		.long  0x05ffff03
+ 931 070c 05FFFF04 	TCR0:		.long  0x05ffff04
+ 932 0710 05FFFF05 	TIOR0:		.long  0x05ffff05
+ 933 0714 05FFFF06 	TIER0:		.long  0x05ffff06
+ 934 0718 05FFFF08 	TCNT0:		.long  0x05ffff08
+ 935              	!NOUSED		.long  0x05ffff09
+ 936 071c 05FFFF0A 	GRA0:		.long  0x05ffff0a
+ 937 0720 05FFFF0C 	GRB0:		.long  0x05ffff0c
+ 938              	
+ 939              	
+ 940 0724 05FFFF0E 	TCR1:		.long  0x05ffff0E
+ 941 0728 05FFFF0F 	TIOR1:		.long  0x05ffff0F
+ 942 072c 05FFFF10 	TIER1:		.long  0x05ffff10
+ 943              	
+ 944 0730 05FFFF12 	TCNT1:		.long  0x05ffff12
+ 945 0734 05FFFF14 	GRA1:		.long  0x05ffff14
+			page 18
+
+
+ 946 0738 05FFFF16 	GRB1:		.long  0x05ffff16
+ 947              	
+ 948 073c 05FFFF18 	TCR2:		.long  0x05ffff18
+ 949 0740 05FFFF19 	TIOR2:		.long  0x05ffff19
+ 950 0744 05FFFF1A 	TIER2:		.long  0x05ffff1a
+ 951 0748 05FFFF1C 	TCNT2:		.long  0x05ffff1c
+ 952 074c 05FFFF1E 	GRA2:		.long  0x05ffff1E
+ 953 0750 05FFFF20 	GRB2:		.long  0x05ffff20
+ 954 0754 FFFFFFFF 	OUTFFFFFFFF:	.LONG  0XFFFFFFFF
+ 955              	!-----TPC±M¥Î-------------------------
+ 956 0758 05FFFFC8 	PACR1:		.long  0x05FFFFC8
+ 957 075c 05FFFFCA 	PACR2:		.long  0x05FFFFCA
+ 958 0760 05FFFFCC 	PBCR1:		.long  0x05FFFFCC
+ 959 0764 05FFFFCE 	PBCR2:		.long  0x05FFFFCE
+ 960 0768 05FFFFC2 	PBDR:		.long  0x05FFFFC2
+ 961 076c 05FFFFF0 	TPMR:		.long  0x05FFFFF0
+ 962 0770 05FFFFF1 	TPCR:		.long  0x05FFFFF1
+ 963 0774 05FFFFF2 	NDERB:		.long  0x05FFFFF2
+ 964 0778 05FFFFF3 	NDERA:		.long  0x05FFFFF3
+ 965 077c 05FFFFF5 	NDRA:		.long  0x05FFFFF5
+ 966 0780 05FFFFF4 	NDRB:		.long  0x05FFFFF4
+ 967              	
+ 968 0784 00000800 	TESTPWM3:	.long  JTESTPWM3
+ 969              	
+ 970 0788 00000000 	.ORG 0X800
+ 970      00000000 
+ 970      00000000 
+ 970      00000000 
+ 970      00000000 
+ 971              	JTESTPWM3:
+ 972 0800 D20E     		MOV.L	PAIOR,R2
+ 973 0802 9310     		MOV.W	PAIORDATA,R3	!³]©w¬Û¹ïÀ³ªºIO
+ 974 0804 2231     		MOV.W	R3,@R2
+ 975              		
+ 976 0806 D20E     		MOV.L	PBIOR,R2
+ 977 0808 930E     		MOV.W	PBIORDATA,R3	!³]©w¬Û¹ïÀ³ªºIO
+ 978 080a 2231     		MOV.W	R3,@R2	
+ 979              		
+ 980              	
+ 981              			
+ 982 080c E400     		MOV	#00,R4
+ 983 080e 440E     		LDC 	R4,SR		!SR I7~I4=0000
+ 984              	
+ 985              	
+ 986 0810 D31B     		MOV.L	TSTR,R3
+ 987 0812 920A     		MOV.W	TSTRDATA,R2
+ 988 0814 2321     		MOV.W	R2,@R3		!SET TSTR
+ 989 0816 0009     		NOP
+ 990              	
+ 991              	
+ 992              	
+ 993 0818 0009     		NOP
+ 994              	WAIT:	
+ 995              	
+ 996 081a 0009     		NOP
+ 997 081c 0009     		NOP
+ 998 081e 0009     		NOP
+			page 19
+
+
+ 999 0820 AFFB     		BRA    WAIT
+ 1000 0822 0009     		NOP
+ 1001 0824 0009     		NOP
+ 1002              		!NOP	
+ 1003 0826 0FFF     	PAIORDATA:	.WORD	0X0FFF	
+ 1004 0828 0AFF     	PBIORDATA:	.WORD	0X0AFF  !0,0,0,0,1,0,1,0,1,1,1,1,1,1,1,1
+ 1005 082a 00FF     	TSTRDATA:	.word   0x00FF   !±Ò°ÊTCNT0,TCNT1	
+ 1006 082c 00FF     	TIOR3DATA:	.WORD   0X00FF   !FF=A=BOTH,B=BOTH;DD=A¤U,B¤U    ;CC=A=¤W,B=¤W;DF=A ÂùÃä,B=¤U­°
+ 1007 082e 00C0     	TCR3DATA:	.word  0x00c0
+ 1008 0830 00FF     	TIER3DATA:	.WORD  0x00FF  !IMEA,IMEB
+ 1009 0832 0000     	TCNT3DATA:	.WORD   0x0000
+ 1010              	
+ 1011 0834 0404     	GRA3DATA:	.WORD   0x0404
+ 1012 0836 0654     	GRB3DATA:	.WORD   0x0654
+ 1013 0838 0504     	GRA4DATA:	.WORD   0x0504
+ 1014 083a 0754     	GRB4DATA:	.WORD   0x0754
+ 1015              	
+ 1016              	!--------IO ³]©w---------------------------
+ 1017 083c 05FFFFC4 	PAIOR:		.long  0x05FFFFC4
+ 1018 0840 05FFFFC6 	PBIOR:		.long  0x05FFFFC6
+ 1019              	
+ 1020 0844 05FFFF22 	TCR3:		.long  0x05FFFF22 !TCR3
+ 1021 0848 05FFFF23 	TIOR3:		.long  0x05FFFF23 
+ 1022 084c 05FFFF24 	TIER3:		.long  0x05FFFF24 
+ 1023              	
+ 1024 0850 05FFFF26 	TCNT3:		.long  0x05FFFF26 
+ 1025 0854 05FFFF28 	GRA3:		.long  0x05FFFF28 
+ 1026 0858 05FFFF2A 	GRB3:		.long  0x05FFFF2A 
+ 1027 085c 05FFFF2E 	BRB3:		.long  0x05FFFF2E 
+ 1028              	
+ 1029 0860 05FFFF32 	TCR4:		.long  0x05FFFF32
+ 1030 0864 05FFFF33 	TIOR4:		.long  0x05FFFF33 
+ 1031 0868 05FFFF34 	TIER4:		.long  0x05FFFF34 
+ 1032              	
+ 1033 086c 05FFFF36 	TCNT4:		.long  0x05FFFF36 
+ 1034 0870 05FFFF38 	GRA4:		.long  0x05FFFF38 
+ 1035 0874 05FFFF3A 	GRB4:		.long  0x05FFFF3A 
+ 1036 0878 05FFFF3C 	BRA4:		.long  0x05FFFF3C 
+ 1037 087c 05FFFF3E 	BRB4:		.long  0x05FFFF3E 
+ 1038 0880 05FFFF00 	TSTR:		.long  0x05ffff00
+ 1039              	
+ 1040              	
+ 1041 0884 05FFFF31 	TOCR:		.long  0x05ffff31
+ 1042              	
+ 1043              	
+ 1044              	
+ 1045 0888 00000000 	.org 0x00001000
+ 1045      00000000 
+ 1045      00000000 
+ 1045      00000000 
+ 1045      00000000 
+ 1046 1000 0F000800 	_ALLEND:	.long 0x0f000800
+ 1047              	.END
+			page 20
+
